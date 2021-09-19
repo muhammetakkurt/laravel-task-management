@@ -15,6 +15,11 @@ composer install
 ```
 npm install
 ```
+
+Create a database, then migrate tables.
+```
+touch database/database.sqlite
+```
 ```
 php artisan migrate --seed
 ```
