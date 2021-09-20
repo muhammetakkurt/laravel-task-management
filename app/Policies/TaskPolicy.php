@@ -55,7 +55,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task)
     {
-        return $user->hasPermissionTo('edit tasks') || $user->id == $task->user_id ? Response::allow()
+        return $user->can('edit tasks') || $user->id == $task->user_id ? Response::allow()
             : Response::deny('You do not have access to change this task.');
     }
 
@@ -68,7 +68,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task)
     {
-        return $user->hasPermissionTo('delete tasks') ? Response::allow()
+        return $user->can('delete tasks') ? Response::allow()
             : Response::deny('You do not have access to delete this task.');
     }
 

@@ -7,6 +7,7 @@ use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\User;
+use App\Services\TaskServices;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -18,7 +19,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->hasRole(['admin' , 'editor'])) {
+        if (auth()->user()->hasRole(['Super Admin', 'admin' , 'editor'])) {
             $tasks = Task::paginate(10);
         }else{
             $tasks = auth()->user()->tasks()->paginate(10);
@@ -45,14 +46,10 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateTaskRequest $request)
+    public function store(CreateTaskRequest $request , TaskServices $taskServices)
     {
         $task = Task::create($request->validated());
-        if ($request->hasFile('image_path'))
-        {
-            $path = $request->file('image_path')->store('tasks' , ['disk' => 'public']);
-            $task->update(['image_path' => $path]);
-        }
+        $taskServices->storeFileAndUpdateColumn($request, $task);
         return redirect()->route('tasks.index')->withSuccess('Task has been created!');
     }
 
@@ -88,15 +85,11 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task , TaskServices $taskServices)
     {
         $this->authorize('update', $task);
         $task->update($request->validated());
-        if ($request->hasFile('image_path'))
-        {
-            $path = $request->file('image_path')->store('tasks' , ['disk' => 'public']);
-            $task->update(['image_path' => $path]);
-        }
+        $taskServices->storeFileAndUpdateColumn($request, $task);
         return redirect()->route('tasks.index')->withSuccess('Task has been updated!');
     }
 
@@ -110,6 +103,6 @@ class TaskController extends Controller
     {
         $this->authorize('delete', $task);
         $task->delete();
-        return redirect()->route('tasks.index')->withSuccess('Task has been updated!');
+        return redirect()->route('tasks.index')->withSuccess('Task has been deleted!');
     }
 }

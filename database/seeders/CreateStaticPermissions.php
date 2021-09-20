@@ -17,9 +17,17 @@ class CreateStaticPermissions extends Seeder
      */
     public function run()
     {
-        $user = User::create([
+        $superUser = User::create([
             'name' => "Muhammet",
             'email' => "m_akkurt@live.com",
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
+
+        $admin = User::create([
+            'name' => "Muhammet",
+            'email' => "admin@admin.com",
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
@@ -33,6 +41,7 @@ class CreateStaticPermissions extends Seeder
         Permission::create(['name' => 'edit tasks' , 'guard_name' => 'api']);
         Permission::create(['name' => 'delete tasks', 'guard_name' => 'api']);
 
+        $superAdminRole = Role::create(['name' => 'Super Admin']);
         $adminRole = Role::create(['name' => 'admin']);
         $adminRole->givePermissionTo('create tasks');
         $adminRole->givePermissionTo('edit tasks');
@@ -42,7 +51,8 @@ class CreateStaticPermissions extends Seeder
         $adminRole->givePermissionTo('create tasks');
         $editorRole->givePermissionTo('edit tasks');
 
-        $user->assignRole('admin');
+        $superUser->assignRole('Super Admin');
+        $admin->assignRole('admin');
 
         Role::create(['name' => 'user']);
     }

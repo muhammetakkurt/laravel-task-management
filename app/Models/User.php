@@ -61,6 +61,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    protected $dates = [
+        'email_verified_at',
+    ];
+
     public function tasks(){
         return $this->hasMany(Task::class);
     }
