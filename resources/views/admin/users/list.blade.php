@@ -30,7 +30,7 @@
                                     <x-badge>{{ $role->name }}</x-badge>
                                 @endforeach
                             </x-table.column>
-                            <x-table.column>{{ $user->email_verified_at }}</x-table.column>
+                            <x-table.column>{{ $user->email_verified_at->format('d.m.Y') }}</x-table.column>
                             <x-table.column>
                                 <a href="{{ route('admin.users.edit' , $user->id) }}" class="bg-indigo-500 text-white py-2 px-4 rounded mr-2">Edit</a>
                             </x-table.column>

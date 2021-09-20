@@ -18,7 +18,7 @@
                     <x-jet-nav-link href="{{ route('tasks.index') }}" :active="request()->routeIs('tasks.*')">
                         {{ __('Tasks') }}
                     </x-jet-nav-link>
-                    @role(['admin'])
+                    @role('Super Admin|admin')
                         <x-jet-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">
                             {{ __('Users') }}
                         </x-jet-nav-link>

@@ -29,22 +29,22 @@
                     @foreach($tasks as $task)
                         <tr>
                             <x-table.column>{{ $task->user->name }}</x-table.column>
-                            <x-table.column><a href="{{ route('tasks.edit' , $task->id) }}" class="underline">{{ substr($task->title,0,30).'...'  }}</a></x-table.column>
-                            <x-table.column>{{ substr($task->content,0,30).'...'  }}</x-table.column>
+                            <x-table.column><a href="{{ route('tasks.edit' , $task->id) }}" class="underline">{{ Str::limit($task->title,40)  }}</a></x-table.column>
+                            <x-table.column>{{ Str::limit($task->content,20)  }}</x-table.column>
                             <x-table.column>{{ $task->velocity }}</x-table.column>
                             <x-table.column>{{ $task->status }}</x-table.column>
                             <x-table.column>
                                 <div class="inline-flex">
-                                    @if(auth()->user()->hasPermissionTo('edit tasks') || $task->user_id == auth()->user()->id)
-                                        <a href="{{ route('tasks.edit' , $task->id) }}" class="bg-indigo-500 text-white py-2 px-4 rounded mr-2">Edit</a>
+                                    @if(auth()->user()->can('edit tasks') || $task->user_id == auth()->user()->id)
+                                        <a href="{{ route('tasks.edit' , $task->id) }}" class="bg-indigo-500 text-white py-2 px-4 rounded mr-2"><i class="fa fa-pen"></i> Edit</a>
                                     @endif
-                                    @if(auth()->user()->hasRole(['admin']))
+                                    @can('delete tasks')
                                         <form method="POST" action="{{ route('tasks.destroy' , $task->id) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="bg-red-600 text-white py-2 px-4 rounded">Delete</button>
+                                            <button type="submit" class="bg-red-600 text-white py-2 px-4 rounded"><i class="fa fa-trash-alt"></i> Delete</button>
                                         </form>
-                                    @endif
+                                    @endcan
                                 </div>
                             </x-table.column>
                         </tr>
