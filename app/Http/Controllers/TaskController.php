@@ -35,6 +35,7 @@ class TaskController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Task::class);
         $taskStatuses = config('enums.task_statuses');
         $users = User::all()->pluck('name','id');
         return view("tasks.create" , compact('users' , 'taskStatuses'));
@@ -48,6 +49,7 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request , TaskServices $taskServices)
     {
+        $this->authorize('create', Task::class);
         $task = Task::create($request->validated());
         $taskServices->storeFileAndUpdateColumn($request, $task);
         return redirect()->route('tasks.index')->withSuccess('Task has been created!');

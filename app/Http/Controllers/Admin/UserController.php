@@ -61,7 +61,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::all();
+        $roles = Role::where('name', '<>' , 'Super Admin')->get();
         return view('admin.users.edit' , compact('roles' , 'user'));
     }
 
@@ -75,7 +75,15 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->validated());
-        $user->syncRoles($request->role);
+        if(!$user->hasRole('Super Admin')){
+            $user->roles()->detach();
+            foreach ($request->roles as $guardName => $roles){
+                foreach ($roles as $role){
+                    $roleToAssign = Role::findByName($role , $guardName);
+                    $user->assignRole($roleToAssign);
+                }
+            }
+        }
         return redirect()->route('admin.users.index')->withSuccess('Your changes have been saved!');
     }
 

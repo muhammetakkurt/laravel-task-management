@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateTaskRequest extends FormRequest
 {
@@ -27,8 +28,8 @@ class CreateTaskRequest extends FormRequest
             'user_id' => 'required|exists:App\Models\User,id',
             'title' => 'required|max:200',
             'content' => 'required',
-            'status' => 'required',
-            'velocity' => 'required',
+            'status' => ['required', Rule::in(config('enums.task_statuses'))],
+            'velocity' => 'required|numeric',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg'
         ];
     }

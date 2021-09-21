@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function getIndex(){
-        return view('dashboard');
+
+        $taskGroups = Task::get()->groupBy('status');
+        return view('dashboard', compact('taskGroups'));
+
     }
 }
