@@ -29,9 +29,14 @@
                     </div>
 
                     <div class="md:col-span-5 pb-3">
-                        @foreach($roles as $role)
+                        @foreach($roles as $key => $role)
                             <label for="{{ $role->name }}">
-                                <input type="checkbox" name="role[]" id="{{ $role->name }}" @if($user->hasRole($role->name)) checked @endif value="{{ $role->name }}" /> {{ $role->name.' - '.$role->guard_name }}
+                                <input type="checkbox" name="roles[{{$role->guard_name}}][{{$role->id}}]" id="{{ $role->name }}" @if($user->hasRole($role->name)) checked @endif value="{{ $role->name }}" />
+                                {{ $role->name }}
+                                {{ 'guard:'.$role->guard_name }}
+                                @foreach($role->permissions as $permission)
+                                    [{{ $permission->name }}-{{ $permission->guard_name }}]
+                                @endforeach
                             </label>
                             <br/>
                         @endforeach

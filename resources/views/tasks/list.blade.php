@@ -8,12 +8,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @can('create tasks')
-                <div class="mb-4">
+                <div class="mb-4 mt-4">
                     <x-form.button :route="'tasks.create'" :color="'indigo'" :name="'+ New Task'" />
                 </div>
             @endif
-
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+
                 <table class="w-full whitespace-nowrap">
                     <thead>
                     <tr>
