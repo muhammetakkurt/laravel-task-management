@@ -17,7 +17,7 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained()->cascadeOnDelete()->index();
             $table->string("title" , 200);
-            $table->string("status" , 100)->index();
+            $table->enum('status', config('enums.task_statuses'))->default('open')->index();
             $table->text("content");
             $table->string("image_path" , 255)->nullable();
             $table->integer('velocity');

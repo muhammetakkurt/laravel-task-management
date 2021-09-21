@@ -1,4 +1,4 @@
-<li class="mt-3">
+<li class="mt-3 hover:opacity-70">
     <a href="{{ route('tasks.edit' , $task->id) }}" class="block bg-white p-5 shadow-lg rounded">
         <div class="flex items-baseline justify-between">
             <span class="text-sm font-medium rounded px-2 py-1 {{$taskStatus}}">{{ $task->status }}</span>
@@ -10,11 +10,11 @@
             </div>
         </div>
         <div class="mt-3">
-            <span class="font-medium">{{ Str::limit($task->content,20)  }}</span>
+            <span class="font-medium">{{ Str::limit($task->title,20)  }}</span>
         </div>
         <div class="mt-3">
             <span class="flex items-center">
-                <img class="rounded-full w-6 h-6 object-cover" src="{{ $task->user->profile_photo_url }}"  alt=""/>
+                <img class="rounded-full w-6 h-6 object-cover" src="{{ $task->user->profile_photo_url }}"  alt="{{ $task->user->name }}"/>
                 <span class="text-sm font-light ml-1">{{ $task->user->name }}</span>
             </span>
         </div>
