@@ -41,7 +41,8 @@ http://127.0.0.1:8000/api/v1/
 
 | Service | Method | URL |
 | ------ | ------ | ------ |
-| List | GET | http://127.0.0.1:8000/api/v1/tasks |
-| Show | GET | http://127.0.0.1:8000/api/v1/tasks/{id} |
-| Edit | POST | http://127.0.0.1:8000/api/v1/tasks/{id} |
-| Destroy | DELETE | http://127.0.0.1:8000/api/v1/tasks/{id}/destroy
+| List tasks | GET | api/v1/tasks |
+| Show task | GET | api/v1/tasks/{id} |
+| Edit task | POST | api/v1/tasks/{id} |
+| Destroy task | DELETE | api/v1/tasks/{id}/destroy |
+| List tasks | GET | api/v1/task-statusses |
