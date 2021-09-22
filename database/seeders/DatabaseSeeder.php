@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(TaskStatusTableSeeder::class);
         $this->call(CreateStaticPermissions::class);
 
         $users = \App\Models\User::factory(10)->has(

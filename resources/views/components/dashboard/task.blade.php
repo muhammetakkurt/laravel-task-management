@@ -1,7 +1,7 @@
 <li class="mt-3 hover:opacity-70">
     <a href="{{ route('tasks.edit' , $task->id) }}" class="block bg-white p-5 shadow-lg rounded">
         <div class="flex items-baseline justify-between">
-            <span class="text-sm font-medium rounded px-2 py-1 {{$taskStatus}}">{{ $task->status }}</span>
+            <span class="text-sm font-medium rounded px-2 py-1 bg-{{ $task->status->color }}-400 text-white">{{ $task->status->name }}</span>
             <div class="flex items-center">
                 <span class="text-sm font-medium mr-1">{{ $task->velocity}}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20" fill="currentColor">

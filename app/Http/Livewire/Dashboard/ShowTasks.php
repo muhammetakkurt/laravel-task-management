@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\Task;
+use App\Models\TaskStatus;
 use App\Models\User;
 use App\Services\TaskServices;
 use Livewire\Component;
@@ -15,12 +16,12 @@ class ShowTasks extends Component
 
     public $selectedUser = [];
 
-    public $selectedStatus;
+    public $selectedTaskStatus;
 
     public $users;
 
     public function mount(){
-        $this->taskStatuses = config('enums.task_statuses');
+        $this->taskStatuses = TaskStatus::all()->pluck('name' , 'id');
         $this->users = User::with('activeTasks')->whereHas('tasks')->get();
     }
 
@@ -28,12 +29,13 @@ class ShowTasks extends Component
     {
         $this->q = null;
         $this->selectedUser = [];
-        $this->selectedStatus = null;
+        $this->selectedTaskStatus = null;
     }
 
     public function render(TaskServices $taskServices)
     {
-        $taskGroups = $taskServices->searchByParams($this->q, $this->selectedUser, $this->selectedStatus);
-        return view('livewire.dashboard.show-tasks' , compact('taskGroups'));
+        $taskGroups = TaskStatus::orderBy('order', 'asc')->get();
+        $tasks = $taskServices->searchByParams($this->q, $this->selectedUser, $this->selectedTaskStatus);
+        return view('livewire.dashboard.show-tasks' , compact('taskGroups', 'tasks'));
     }
 }

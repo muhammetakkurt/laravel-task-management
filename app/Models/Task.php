@@ -9,10 +9,14 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["user_id", "title" , "content", "velocity" , "status" , 'image_path'];
+    protected $fillable = ["user_id", "task_status_id", "title" , "content", "velocity" , 'image_path'];
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function status(){
+        return $this->belongsTo(TaskStatus::class , 'task_status_id' , 'id');
     }
 
     public function getFullNameImagePathAttribute(){

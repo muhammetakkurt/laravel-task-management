@@ -21,12 +21,11 @@ class TaskFactory extends Factory
      */
     public function definition()
     {
-        $taskStatuses = array_values(config('enums.task_statuses'));
         return [
+            'task_status_id' => rand(1, 4),
             'title' => $this->faker->text(50),
             'content' => $this->faker->text(400),
             'velocity' => $this->faker->numberBetween(1,8),
-            'status' => $taskStatuses[rand(0, count($taskStatuses) -1 )]
         ];
     }
 }

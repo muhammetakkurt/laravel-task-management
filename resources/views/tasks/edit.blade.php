@@ -42,9 +42,9 @@
                         @enderror
                     </div>
                     <div class="col-span-5 pb-3">
-                        <label for="status">Status</label>
-                        <x-form.select :options="$taskStatuses" :selected="$task->status" name="status" id="status" />
-                        @error('status')
+                        <label for="task_status_id">Status</label>
+                        <x-form.select :options="$taskStatuses" :selected="$task->task_status_id" name="task_status_id" id="task_status_id" />
+                        @error('task_status_id')
                         <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>

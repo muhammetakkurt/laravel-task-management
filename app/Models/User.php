@@ -70,6 +70,6 @@ class User extends Authenticatable
     }
 
     public function activeTasks(){
-        return $this->hasMany(Task::class)->where('status' , 'in_progress');
+        return $this->hasMany(Task::class)->whereRelation('status' , 'code' , '=' , 'in_progress');
     }
 }

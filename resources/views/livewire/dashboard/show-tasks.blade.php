@@ -24,7 +24,7 @@
             </div>
 
             <div class="mt-4 md:mt-0  px-4 lg:px-0 lg:mt-0">
-                <x-form.select :options="$taskStatuses" :firstValue="'Select task status'" wire:model="selectedStatus" :selected="''" />
+                <x-form.select :options="$taskStatuses" :firstValue="'Select task status'" wire:model="selectedTaskStatus" :selected="''" />
             </div>
         </div>
         <div class="bg-white overflow-hidden shadow-xl">
@@ -32,12 +32,14 @@
 
                 @forelse($taskGroups as $key => $group)
                     <div class="lg:flex lg:flex-col flex-row w-full md:w-72 lg:w-72 rounded-lg h-full border">
-                        <h3 class="pt-3 pb-1 text-md font-medium bg-indigo-50 text-gray-700 text-center">{{ $key }} - ({{ count($group) }})</h3>
+                        <h3 class="pt-3 pb-1 text-md font-medium bg-{{ $group->color }}-200 text-gray-700 text-center">{{ $group->name }}</h3>
                         <div class="flex-1 min-h-0">
                             <ul class="pt-1 pb-3 px-3">
-                                @foreach($group as $task)
-                                    <x-dashboard.task :task="$task" />
-                                @endforeach
+                                @isset($tasks[$group->id])
+                                    @foreach($tasks[$group->id] as $task)
+                                        <x-dashboard.task :task="$task" />
+                                    @endforeach
+                                @endisset
                             </ul>
                         </div>
                     </div>

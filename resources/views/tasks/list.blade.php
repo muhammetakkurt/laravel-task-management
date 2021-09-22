@@ -32,7 +32,7 @@
                             <x-table.column><a href="{{ route('tasks.edit' , $task->id) }}" class="underline">{{ Str::limit($task->title,40)  }}</a></x-table.column>
                             <x-table.column>{{ Str::limit($task->content,20)  }}</x-table.column>
                             <x-table.column>{{ $task->velocity }}</x-table.column>
-                            <x-table.column>{{ $task->status }}</x-table.column>
+                            <x-table.column>{{ $task->status->name }}</x-table.column>
                             <x-table.column>
                                 <div class="inline-flex">
                                     @if(auth()->user()->can('edit tasks') || $task->user_id == auth()->user()->id)

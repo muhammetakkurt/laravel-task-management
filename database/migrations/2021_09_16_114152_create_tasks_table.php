@@ -16,8 +16,8 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->constrained()->cascadeOnDelete()->index();
+            $table->foreignId("task_status_id")->constrained()->cascadeOnDelete()->index();
             $table->string("title" , 200);
-            $table->enum('status', config('enums.task_statuses'))->default('open')->index();
             $table->text("content");
             $table->string("image_path" , 255)->nullable();
             $table->integer('velocity');

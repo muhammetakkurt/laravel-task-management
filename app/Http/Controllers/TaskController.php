@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use App\Models\TaskStatus;
 use App\Models\User;
 use App\Services\TaskServices;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class TaskController extends Controller
     public function index()
     {
         if (auth()->user()->hasRole(['Super Admin', 'admin' , 'editor'])) {
-            $tasks = Task::with('user')->paginate(10);
+            $tasks = Task::with('user', 'status')->paginate(10);
         }else{
             $tasks = auth()->user()->tasks()->paginate(10);
         }
@@ -36,7 +37,7 @@ class TaskController extends Controller
     public function create()
     {
         $this->authorize('create', Task::class);
-        $taskStatuses = config('enums.task_statuses');
+        $taskStatuses = TaskStatus::all()->pluck('name','id');
         $users = User::all()->pluck('name','id');
         return view("tasks.create" , compact('users' , 'taskStatuses'));
     }
@@ -75,7 +76,7 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         $this->authorize('update', $task);
-        $taskStatuses = config('enums.task_statuses');
+        $taskStatuses = TaskStatus::all()->pluck('name','id');
         $users = User::all()->pluck('name','id');
         return view('tasks.edit' , compact('task','taskStatuses' , 'users'));
     }
