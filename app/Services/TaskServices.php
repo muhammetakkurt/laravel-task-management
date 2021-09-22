@@ -24,8 +24,8 @@ class TaskServices {
      * @param $user_id
      * @param $status
      * */
-    public function searchByParams($q = null, $user_id = null, $task_status_id = null){
-        return Task::with(['user','status'])
+    public function searchByParams($q = null, $user_id = null, $task_status_id = null, $unasiggnedUsers){
+        $taskGroups = Task::with(['user','status'])
             ->where(function ($query) use ($q) {
                 return $query->when($q, function ($query , $q){
                     return $query->where('title', 'like' , '%'.$q.'%')
@@ -35,8 +35,13 @@ class TaskServices {
                 return $query->where('task_status_id', $task_status_id);
             })->when($user_id, function ($query, $user_id) {
                 return $query->whereIn('user_id', $user_id);
+            })->when($unasiggnedUsers, function ($query) {
+                return $query->whereNull('user_id');
             })
+            ->orderBy('task_status_id', 'ASC')
+            ->orderBy('priority', 'DESC')
             ->get()
             ->groupBy('task_status_id');
+        return $taskGroups;
     }
 }

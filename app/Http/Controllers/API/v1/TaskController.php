@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateTaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\Task\CreateTaskRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Services\TaskServices;

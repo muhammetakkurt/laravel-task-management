@@ -37,6 +37,7 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (\Exception $e, $request) {
             if ($request->is('api/*')) {
+                if(class_basename($e) == 'Exception')
                 return response()->json(['errors' => ['message' => $e->getMessage()]], 400);
             }
         });

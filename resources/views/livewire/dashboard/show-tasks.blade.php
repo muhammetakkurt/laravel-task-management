@@ -12,6 +12,12 @@
                 </label>
                 @endforeach
             </div>
+            <div>
+                <label for="unasiggnedUsers">
+                    <input type="checkbox" class="hidden" id="unasiggnedUsers" wire:model="unasiggnedUsers" value="1">
+                    <span class="inline-flex px-2 py-1 h-10 text-xs font-bold items-center leading-none text-black border rounded-full @if( $unasiggnedUsers == "1" ) border-blue-900 @else border-gray-300 @endif">Unasiggned Tasks</span>
+                </label>
+            </div>
             <div class="flex justify-center mt-4 px-4 lg:px-0 md:mt-0 lg:mt-0">
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 left-2 flex items-center">
@@ -24,32 +30,43 @@
             </div>
 
             <div class="mt-4 md:mt-0  px-4 lg:px-0 lg:mt-0">
-                <x-form.select :options="$taskStatuses" :firstValue="'Select task status'" wire:model="selectedTaskStatus" :selected="''" />
+                <x-form.select :options="$taskStatuses" :firstValue="'All Tasks'" wire:model="selectedTaskStatus" :selected="''" />
             </div>
         </div>
-        <div class="bg-white overflow-hidden shadow-xl">
-            <main class="h-full w-full flex flex-col justify-center py-2 items-center lg:items-baseline lg:flex-row lg:justify-around">
-
-                @forelse($taskGroups as $key => $group)
-                    <div class="lg:flex lg:flex-col flex-row w-full md:w-72 lg:w-72 rounded-lg h-full border">
-                        <h3 class="pt-3 pb-1 text-md font-medium bg-{{ $group->color }}-200 text-gray-700 text-center">{{ $group->name }}</h3>
-                        <div class="flex-1 min-h-0">
-                            <ul class="pt-1 pb-3 px-3">
-                                @isset($tasks[$group->id])
-                                    @foreach($tasks[$group->id] as $task)
-                                        <x-dashboard.task :task="$task" />
-                                    @endforeach
-                                @endisset
-                            </ul>
-                        </div>
+    </div>
+    <div class="bg-white overflow-hidden shadow-xl">
+        <main class="h-full w-full flex flex-col justify-center py-2 items-center lg:items-baseline lg:flex-row lg:justify-around">
+            @isset($tasks[""])
+                <div class="lg:flex lg:flex-col flex-row w-full md:w-72 lg:w-72 rounded-lg h-full border">
+                    <h3 class="pt-3 pb-1 text-md font-medium bg-red-200 text-gray-700 text-center">Backlog</h3>
+                    <div class="flex-1 min-h-0">
+                        <ul class="pt-1 pb-3 px-3">
+                            @foreach($tasks[""] as $task)
+                                <x-dashboard.task :task="$task" />
+                            @endforeach
+                        </ul>
                     </div>
-                @empty
-                    <div class="mx-auto w-full text-center justify-center flex flex-col items-center pt-10 pb-10">
-                        <span>Task not found.</span>
-                        <div class="bg-red-700 rounded-full w-40 px-4 py-2 text-white mt-3 cursor-pointer" wire:click="resetFilters">Clear all filters.</div>
+                </div>
+            @endisset
+            @forelse($taskGroups as $key => $group)
+                <div class="lg:flex lg:flex-col flex-row w-full md:w-72 lg:w-72 rounded-lg h-full border">
+                    <h3 class="pt-3 pb-1 text-md font-medium bg-{{ $group->color }}-200 text-gray-700 text-center">{{ $group->name }}</h3>
+                    <div class="flex-1 min-h-0">
+                        <ul class="pt-1 pb-3 px-3">
+                            @isset($tasks[$group->id])
+                                @foreach($tasks[$group->id] as $task)
+                                    <x-dashboard.task :task="$task" />
+                                @endforeach
+                            @endisset
+                        </ul>
                     </div>
-                @endforelse
-            </main>
-        </div>
+                </div>
+            @empty
+                <div class="mx-auto w-full text-center justify-center flex flex-col items-center pt-10 pb-10">
+                    <span>Task not found.</span>
+                    <div class="bg-red-700 rounded-full w-40 px-4 py-2 text-white mt-3 cursor-pointer" wire:click="resetFilters">Clear all filters.</div>
+                </div>
+            @endforelse
+        </main>
     </div>
 </div>

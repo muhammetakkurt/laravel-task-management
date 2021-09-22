@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\TaskStatus;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRoleRequest extends FormRequest
+class UpdateTaskStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,9 @@ class CreateRoleRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'guard_name' => 'required',
-            'permissions' => 'required'
+            'code' => 'required',
+            'color' => 'required',
+            'order' => 'required|numeric'
         ];
     }
 }

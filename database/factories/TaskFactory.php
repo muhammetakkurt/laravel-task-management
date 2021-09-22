@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Task;
+use App\Models\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaskFactory extends Factory
@@ -22,10 +23,11 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            'task_status_id' => rand(1, 4),
+            'task_status_id' => rand(1, TaskStatus::count()),
             'title' => $this->faker->text(50),
             'content' => $this->faker->text(400),
             'velocity' => $this->faker->numberBetween(1,8),
+            'priority' => $this->faker->numberBetween(1,10),
         ];
     }
 }

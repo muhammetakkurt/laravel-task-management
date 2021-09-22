@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::group(['middleware' => ['auth:sanctum' , 'verified']] , function(){
@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth:sanctum' , 'verified']] , function(){
     Route::group(['middleware' => 'isAdmin'] , function (){
         Route::group(['as' => 'admin.'] , function(){
             Route::resource('/roles' , \App\Http\Controllers\Admin\RoleControler::class );
+            Route::resource('/task-statuses' , \App\Http\Controllers\Admin\TaskStatusController::class );
             Route::resource('/users' , \App\Http\Controllers\Admin\UserController::class );
         });
     });

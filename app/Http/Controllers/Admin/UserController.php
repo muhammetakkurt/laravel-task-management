@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -28,7 +30,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::where('name', '<>' , 'Super Admin')->get();
+        return view('admin.users.create' , compact('roles'));
     }
 
     /**
@@ -37,9 +40,27 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
-        //
+        $user = User::create([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'email_verified_at' => now(),
+            'password' => Hash::make($request->get('password')), // password
+            'remember_token' => Str::random(10),
+        ]);
+
+        if($request->roles)
+        {
+            foreach ($request->roles as $guardName => $roles){
+                foreach ($roles as $role){
+                    $roleToAssign = Role::findByName($role , $guardName);
+                    $user->assignRole($roleToAssign);
+                }
+            }
+        }
+
+        return redirect()->route('admin.users.index')->withSuccess('User has been created!');
     }
 
     /**
@@ -93,8 +114,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        if ($user->hasRole('Super Admin')) abort(401, 'You can not delete this user!');
+        $user->delete();
+        return redirect()->route('admin.users.index')->withSuccess('User has been deleted!');
     }
 }

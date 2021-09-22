@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Task;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CreateTaskRequest extends FormRequest
 {
@@ -25,11 +24,12 @@ class CreateTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|exists:App\Models\User,id',
-            'task_status_id' => 'required|exists:App\Models\TaskStatus,id',
+            'user_id' => 'nullable|exists:App\Models\User,id',
+            'task_status_id' => 'nullable|exists:App\Models\TaskStatus,id',
             'title' => 'required|max:200',
             'content' => 'required',
             'velocity' => 'required|numeric',
+            'priority' => 'required|numeric',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg'
         ];
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,7 +26,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => ['required','email',Rule::unique('users')->ignore($this->user->id, 'id') ],
             'roles.*.*' => ['required', Rule::notIn(['Super Admin'])]
         ];
     }

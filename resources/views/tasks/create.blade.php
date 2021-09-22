@@ -41,6 +41,14 @@
                         @enderror
                     </div>
 
+                    <div class="col-span-5 pb-3">
+                        <label for="priority">Priority</label>
+                        <input type="number" name="priority" id="priority" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="{{ old('priority') }}" />
+                        @error('priority')
+                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <div class="md:col-span-5 pb-3">
                         <label for="task_status_id">Status</label>
                         <x-form.select :options="$taskStatuses" :selected="old('task_status_id') ?? ''" name="task_status_id" id="task_status_id" />

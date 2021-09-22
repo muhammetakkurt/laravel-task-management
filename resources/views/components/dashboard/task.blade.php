@@ -12,10 +12,17 @@
         <div class="mt-3">
             <span class="font-medium">{{ Str::limit($task->title,20) }}</span>
         </div>
-        <div class="mt-3">
+        <div class="mt-3 flex justify-between items-center">
             <span class="flex items-center">
-                <img class="rounded-full w-6 h-6 object-cover" src="{{ $task->user->profile_photo_url }}"  alt="{{ $task->user->name }}"/>
-                <span class="text-sm font-light ml-1">{{ $task->user->name }}</span>
+                @if($task->user_id)
+                    <img class="rounded-full w-6 h-6 object-cover" src="{{ $task->user->profile_photo_url }}"  alt="{{ $task->user->name }}"/>
+                    <span class="text-sm font-light ml-1">{{ $task->user->name }}</span>
+                @else
+                    <x-badge>Unasiggned</x-badge>
+                @endif
+            </span>
+            <span class="priority text-xs">
+                <x-badge> p:{{ $task->priority }}</x-badge>
             </span>
         </div>
     </a>

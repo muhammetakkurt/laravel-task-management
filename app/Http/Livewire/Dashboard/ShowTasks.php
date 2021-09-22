@@ -18,6 +18,8 @@ class ShowTasks extends Component
 
     public $selectedTaskStatus;
 
+    public $unasiggnedUsers = null;
+
     public $users;
 
     public function mount(){
@@ -30,12 +32,13 @@ class ShowTasks extends Component
         $this->q = null;
         $this->selectedUser = [];
         $this->selectedTaskStatus = null;
+        $this->unasiggnedUsers = null;
     }
 
     public function render(TaskServices $taskServices)
     {
         $taskGroups = TaskStatus::orderBy('order', 'asc')->get();
-        $tasks = $taskServices->searchByParams($this->q, $this->selectedUser, $this->selectedTaskStatus);
+        $tasks = $taskServices->searchByParams($this->q, $this->selectedUser, $this->selectedTaskStatus , $this->unasiggnedUsers);
         return view('livewire.dashboard.show-tasks' , compact('taskGroups', 'tasks'));
     }
 }
