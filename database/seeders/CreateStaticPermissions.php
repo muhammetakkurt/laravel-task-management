@@ -46,17 +46,22 @@ class CreateStaticPermissions extends Seeder
         Permission::create(['name' => 'delete tasks', 'guard_name' => 'api']);
 
         $superAdminRole = Role::create(['name' => 'Super Admin']);
-        $adminRole = Role::create(['name' => 'admin']);
+        $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
         $adminRole->givePermissionTo('create tasks');
         $adminRole->givePermissionTo('edit tasks');
         $adminRole->givePermissionTo('delete tasks');
 
-        $editorRole = Role::create(['name' => 'editor']);
-        $adminRole->givePermissionTo('create tasks');
+        $editorRole = Role::create(['name' => 'editor', 'guard_name' => 'web']);
+        $editorRole->givePermissionTo('create tasks');
         $editorRole->givePermissionTo('edit tasks');
+
+        $editorRoleForApi = Role::create(['name' => 'editor_api', 'guard_name' => 'api']);
+        $editorRoleForApi->givePermissionTo('create tasks');
+        $editorRoleForApi->givePermissionTo('edit tasks');
 
         $superUser->assignRole('Super Admin');
         $admin->assignRole('admin');
+        $admin->assignRole($editorRoleForApi);
 
         Role::create(['name' => 'user']);
     }

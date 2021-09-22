@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Role\CreateTaskStatusRequest;
-use App\Http\Requests\Role\UpdateTaskStatusRequest;
+use App\Http\Requests\TaskStatus\CreateTaskStatusRequest;
+use App\Http\Requests\TaskStatus\UpdateTaskStatusRequest;
 use App\Models\TaskStatus;
 
 class TaskStatusController extends Controller

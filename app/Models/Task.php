@@ -19,7 +19,7 @@ class Task extends Model
         return $this->belongsTo(TaskStatus::class , 'task_status_id' , 'id')->withDefault(["name" => "Backlog", "code" => "backlog", "color" => "red", "order" => 0]);
     }
 
-    public function getFullNameImagePathAttribute(){
+    public function getFullImagePathAttribute(){
         if(!$this->image_path) return null;
         $config = config('filesystems.disks.public.url');
         return "$config/$this->image_path";

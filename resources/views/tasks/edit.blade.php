@@ -57,7 +57,7 @@
                     <div class="col-span-5 pb-3">
                         <label for="status">Image</label>
                         @if($task->full_name_image_path)
-                            <img src="{{ $task->full_name_image_path }}" />
+                            <img src="{{ $task->full_image_path }}" />
                         @endif
                         <input type="file" name="image_path" />
                         @error('image_path')
