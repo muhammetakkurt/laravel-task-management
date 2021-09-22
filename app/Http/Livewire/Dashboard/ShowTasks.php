@@ -4,13 +4,12 @@ namespace App\Http\Livewire\Dashboard;
 
 use App\Models\Task;
 use App\Models\User;
+use App\Services\TaskServices;
 use Livewire\Component;
 
 class ShowTasks extends Component
 {
     public $q;
-
-    public $readyToLoad = false;
 
     public $taskStatuses = [];
 
@@ -22,11 +21,7 @@ class ShowTasks extends Component
 
     public function mount(){
         $this->taskStatuses = config('enums.task_statuses');
-        $this->users = $users = User::whereHas('tasks')->get();
-    }
-
-    public function loadTasks(){
-        $this->readyToLoad = true;
+        $this->users = User::with('activeTasks')->whereHas('tasks')->get();
     }
 
     public function resetFilters()
@@ -36,21 +31,9 @@ class ShowTasks extends Component
         $this->selectedStatus = null;
     }
 
-    public function render()
+    public function render(TaskServices $taskServices)
     {
-        if($this->readyToLoad)
-        {
-            $taskGroups = Task::when($this->q, function ($query) {
-                                return $query->where('title', 'like' , '%'.$this->q.'%');
-                            })->when($this->selectedStatus, function ($query) {
-                                return $query->where('status', $this->selectedStatus);
-                            })->when($this->selectedUser, function ($query) {
-                                return $query->whereIn('user_id', $this->selectedUser);
-                            })->get()->groupBy('status');
-        }else{
-            $taskGroups = [];
-        }
-
+        $taskGroups = $taskServices->searchByParams($this->q, $this->selectedUser, $this->selectedStatus);
         return view('livewire.dashboard.show-tasks' , compact('taskGroups'));
     }
 }

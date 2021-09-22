@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="border rounded-full py-4 hover:bg-indigo-600 hover:text-gray-400 transition px-2">
-                        akkurt
+                        TASKS
                     </a>
                 </div>
 

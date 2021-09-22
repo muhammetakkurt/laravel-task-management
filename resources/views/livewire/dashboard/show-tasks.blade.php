@@ -2,11 +2,11 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="mb-4 lg:flex justify-between text-center items-center">
             <div class="flex justify-center items-center pl-2">
-                <span class="mr-2 font-bold text-sm">Assigned</span>
                 @foreach($users as $user)
                 <label for="search_by_user_{{$user->id}}">
                     <input type="checkbox" class="hidden" id="search_by_user_{{$user->id}}" wire:model="selectedUser" value="{{$user->id}}">
-                    <span  class="flex items-center border  rounded-full -ml-1 @if( in_array($user->id, $selectedUser) ) border-blue-900 @else border-gray-300 @endif">
+                    <span  class="relative flex items-center border  rounded-full mr-1 @if( in_array($user->id, $selectedUser) ) border-blue-900 @else border-gray-300 @endif">
+                        <span class="absolute -top-1 -left-1 w-4 h-4 bg-blue-400 font-light text-xs text-white rounded-full">{{ $user->activeTasks->count() }}</span>
                         <img class="rounded-full w-8 h-8 object-cover" src="{{ $user->profile_photo_url }}"  alt=""/>
                     </span>
                 </label>
@@ -27,12 +27,12 @@
                 <x-form.select :options="$taskStatuses" :firstValue="'Select task status'" wire:model="selectedStatus" :selected="''" />
             </div>
         </div>
-        <div class="bg-white overflow-hidden shadow-xl" wire:init="loadTasks">
-            <main class="h-full w-full flex flex-col justify-center items-center lg:items-baseline lg:flex-row lg:justify-around">
+        <div class="bg-white overflow-hidden shadow-xl">
+            <main class="h-full w-full flex flex-col justify-center py-2 items-center lg:items-baseline lg:flex-row lg:justify-around">
 
                 @forelse($taskGroups as $key => $group)
-                    <div class="lg:flex lg:flex-col flex-row w-72 rounded-lg">
-                        <h3 class="px-3 pt-3 pb-1 text-md font-medium text-gray-700 leading-tight">{{ $key }}</h3>
+                    <div class="lg:flex lg:flex-col flex-row w-full md:w-72 lg:w-72 rounded-lg h-full border">
+                        <h3 class="pt-3 pb-1 text-md font-medium bg-indigo-50 text-gray-700 text-center">{{ $key }} - ({{ count($group) }})</h3>
                         <div class="flex-1 min-h-0">
                             <ul class="pt-1 pb-3 px-3">
                                 @foreach($group as $task)
@@ -43,7 +43,7 @@
                     </div>
                 @empty
                     <div class="mx-auto w-full text-center justify-center flex flex-col items-center pt-10 pb-10">
-                        <span>There is no tasks for these filters.</span>
+                        <span>Task not found.</span>
                         <div class="bg-red-700 rounded-full w-40 px-4 py-2 text-white mt-3 cursor-pointer" wire:click="resetFilters">Clear all filters.</div>
                     </div>
                 @endforelse

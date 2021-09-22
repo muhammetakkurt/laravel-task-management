@@ -13,13 +13,13 @@ class Button extends Component
      */
     public $route;
     public $name;
-    public $color;
+    public $classes;
 
-    public function __construct($route , $name , $color)
+    public function __construct($route , $name = null , $classes = null)
     {
         $this->route = $route;
         $this->name = $name;
-        $this->color = $color;
+        $this->classes = $classes;
     }
 
     /**

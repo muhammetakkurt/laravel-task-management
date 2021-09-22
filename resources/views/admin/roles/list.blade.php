@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-4">
-                <x-form.button :route="'admin.roles.create'" :color="'indigo'" :name="'+ New Role'" />
+                <x-form.button :route="route('admin.roles.create')" :name="'+ New Role'" />
             </div>
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <table class="w-full whitespace-nowrap">

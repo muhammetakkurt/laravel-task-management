@@ -11,7 +11,7 @@
                 <form method="POST" action="{{route('admin.users.update' , $user->id)}}">
                     @csrf
                     @method('PUT')
-                    <div class="md:col-span-5 pb-3">
+                    <div class="col-span-5 pb-3">
                         <label for="name">Name</label>
                         <input type="text" name="name" id="name" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="{{ $user->name }}" />
                         @error('name')
@@ -19,7 +19,7 @@
                         @enderror
                     </div>
 
-                    <div class="md:col-span-5 pb-3">
+                    <div class="col-span-5 pb-3">
                         <label for="email">E-mail</label>
                         <input type="email" name="email" id="email" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                                value="{{ $user->email }}" />
@@ -28,7 +28,7 @@
                         @enderror
                     </div>
 
-                    <div class="md:col-span-5 pb-3">
+                    <div class="col-span-5 flex flex-col pb-3">
                         @foreach($roles as $key => $role)
                             <label for="{{ $role->name }}">
                                 <input type="checkbox" name="roles[{{$role->guard_name}}][{{$role->id}}]" id="{{ $role->name }}" @if($user->hasRole($role->name)) checked @endif value="{{ $role->name }}" />
@@ -38,11 +38,10 @@
                                     [{{ $permission->name }}-{{ $permission->guard_name }}]
                                 @endforeach
                             </label>
-                            <br/>
                         @endforeach
                     </div>
 
-                    <div class="md:col-span-5">
+                    <div class="col-span-5">
                         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
                     </div>
                 </form>

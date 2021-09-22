@@ -20,7 +20,7 @@ class TaskController extends Controller
     public function index()
     {
         if (auth()->user()->hasRole(['Super Admin', 'admin' , 'editor'])) {
-            $tasks = Task::paginate(10);
+            $tasks = Task::with('user')->paginate(10);
         }else{
             $tasks = auth()->user()->tasks()->paginate(10);
         }

@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="mt-3">
-            <span class="font-medium">{{ Str::limit($task->title,20)  }}</span>
+            <span class="font-medium">{{ Str::limit($task->title,20) }}</span>
         </div>
         <div class="mt-3">
             <span class="flex items-center">

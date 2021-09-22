@@ -8,8 +8,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @can('create tasks')
-                <div class="mb-4 mt-4">
-                    <x-form.button :route="'tasks.create'" :color="'indigo'" :name="'+ New Task'" />
+                <div class="mb-4">
+                    <x-form.button :route="route('tasks.create')" :name="'+ New Task'" />
                 </div>
             @endif
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
@@ -36,7 +36,7 @@
                             <x-table.column>
                                 <div class="inline-flex">
                                     @if(auth()->user()->can('edit tasks') || $task->user_id == auth()->user()->id)
-                                        <a href="{{ route('tasks.edit' , $task->id) }}" class="bg-indigo-500 text-white py-2 px-4 rounded mr-2"><i class="fa fa-pen"></i> Edit</a>
+                                        <x-form.button :route="route('tasks.edit' , $task->id)" :name="' Edit'" />
                                     @endif
                                     @can('delete tasks')
                                         <form method="POST" action="{{ route('tasks.destroy' , $task->id) }}">

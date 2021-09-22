@@ -24,6 +24,24 @@ touch database/database.sqlite
 php artisan migrate --seed
 ```
 
-Username: m_akkurt@live.com
-<br/>
+Username: m_akkurt@live.com 
+<br />
 Password: password
+
+
+
+##API Usage
+
+You can use api with bearer token
+
+
+```
+http://127.0.0.1:8000/api/v1/
+```
+
+| Service | Method | URL |
+| ------ | ------ | ------ |
+| List | GET | http://127.0.0.1:8000/api/v1/tasks |
+| Show | GET | http://127.0.0.1:8000/api/v1/tasks/{id} |
+| Edit | POST | http://127.0.0.1:8000/api/v1/tasks/{id} |
+| Destroy | DELETE | http://127.0.0.1:8000/api/v1/tasks/{id}/destroy
