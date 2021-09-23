@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::withCount('activeTasks')->paginate(10);
         return view("admin.users.list" , compact('users'));
     }
 
@@ -98,14 +98,17 @@ class UserController extends Controller
         $user->update($request->validated());
         if(!$user->hasRole('Super Admin')){
             $user->roles()->detach();
-            foreach ($request->roles as $guardName => $roles){
-                foreach ($roles as $role){
-                    $roleToAssign = Role::findByName($role , $guardName);
-                    $user->assignRole($roleToAssign);
+            if($request->roles)
+            {
+                foreach ($request->roles as $guardName => $roles){
+                    foreach ($roles as $role){
+                        $roleToAssign = Role::findByName($role , $guardName);
+                        $user->assignRole($roleToAssign);
+                    }
                 }
             }
         }
-        return redirect()->route('admin.users.index')->withSuccess('Your changes have been saved!');
+        return redirect()->route('admin.users.index')->withSuccess('User has been saved!');
     }
 
     /**

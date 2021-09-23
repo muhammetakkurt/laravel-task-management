@@ -14,11 +14,11 @@
             </div>
             <div>
                 <label for="unasiggnedUsers">
-                    <input type="checkbox" class="hidden" id="unasiggnedUsers" wire:model="unasiggnedUsers" value="1">
+                    <input type="checkbox" class="hidden" id="unasiggnedUsers" wire:model="unasiggnedUsers" value="1" />
                     <span class="inline-flex px-2 py-1 h-10 text-xs font-bold items-center leading-none text-black border rounded-full @if( $unasiggnedUsers == "1" ) border-blue-900 @else border-gray-300 @endif">Unasiggned Tasks</span>
                 </label>
             </div>
-            <div class="flex justify-center mt-4 px-4 lg:px-0 md:mt-0 lg:mt-0">
+            <div class="mt-4 px-4 lg:px-0 md:mt-0 lg:mt-0">
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 left-2 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,28 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tasks') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Tasks') }}
+            </h2>
+            @can('create tasks')
+                    <x-form.button :classes="'bg-green-500 text-white'" :route="route('tasks.create')" :name="'+ New Task'" />
+            @endif
+        </div>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @can('create tasks')
-                <div class="mb-4">
-                    <x-form.button :route="route('tasks.create')" :name="'+ New Task'" />
-                </div>
-            @endif
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-
                 <table class="w-full whitespace-nowrap">
                     <thead>
                     <tr>
-                        <x-table.column>Assigned</x-table.column>
-                        <x-table.column>Title</x-table.column>
-                        <x-table.column>Content</x-table.column>
-                        <x-table.column>Velocity</x-table.column>
-                        <x-table.column>Status</x-table.column>
-                        <x-table.column>#</x-table.column>
+                        <x-table.column :class="'text-center'">Assigned</x-table.column>
+                        <x-table.column :class="'text-center'">Title</x-table.column>
+                        <x-table.column :class="'text-center'">Content</x-table.column>
+                        <x-table.column :class="'text-center'">Velocity</x-table.column>
+                        <x-table.column :class="'text-center'">Status</x-table.column>
+                        <x-table.column :class="'text-center'">#</x-table.column>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,12 +30,12 @@
                             <x-table.column>{{ $task->user->name }}</x-table.column>
                             <x-table.column><a href="{{ route('tasks.edit' , $task->id) }}" class="underline">{{ Str::limit($task->title,40)  }}</a></x-table.column>
                             <x-table.column>{{ Str::limit($task->content,20)  }}</x-table.column>
-                            <x-table.column>{{ $task->velocity }}</x-table.column>
-                            <x-table.column>
+                            <x-table.column :class="'text-center'">{{ $task->velocity }}</x-table.column>
+                            <x-table.column  :class="'text-center'">
                                 <x-badge>{{ $task->status->name }}</x-badge>
                             </x-table.column>
                             <x-table.column>
-                                <div class="inline-flex">
+                                <div class="flex justify-center">
                                     @if(auth()->user()->can('edit tasks') || $task->user_id == auth()->user()->id)
                                         <x-form.button :route="route('tasks.edit' , $task->id)" :name="' Edit'" />
                                     @endif
