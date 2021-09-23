@@ -14,7 +14,7 @@
         </div>
     </div>
 @endif
-@if($errors->all())
+@if($errors->any())
     <div class="max-w-7xl mx-auto bg-g pt-6 lg:px-8">
         <div class="bg-red-100 mb-4 px-5 py-4 w-full border-l-4 border-red-500">
             <div class="flex justify-between">
