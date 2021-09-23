@@ -18,18 +18,6 @@
                     <x-jet-nav-link href="{{ route('tasks.index') }}" :active="request()->routeIs('tasks.*')">
                         {{ __('Tasks') }}
                     </x-jet-nav-link>
-
-                    @role('Super Admin|admin')
-                        <x-jet-nav-link href="{{ route('admin.task-statuses.index') }}" :active="request()->routeIs('admin.task-statuses.*')">
-                            {{ __('Task Statuses') }}
-                        </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">
-                            {{ __('Users') }}
-                        </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('admin.roles.index') }}" :active="request()->routeIs('admin.roles.*')">
-                            {{ __('Roles') }}
-                        </x-jet-nav-link>
-                    @endrole
                 </div>
             </div>
 
@@ -83,6 +71,33 @@
                         </x-jet-dropdown>
                     </div>
                 @endif
+                @role('Super Admin|admin')
+                <div class="m-3 focus:outline-none relative">
+                    <x-jet-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button class="flex text-md text-lg border-2 border-transparent rounded-full focus:outline-none transition">
+                                {{ __('Settings') }}
+                            </button>
+                        </x-slot>
+                        <x-slot name="content">
+                            <!-- Manage System -->
+                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                {{ __('Manage System') }}
+                            </div>
+                            <!-- Manage System -->
+                                <x-jet-dropdown-link href="{{ route('admin.task-statuses.index') }}">
+                                    {{ __('Task Statuses') }}
+                                </x-jet-dropdown-link >
+                                <x-jet-dropdown-link  href="{{ route('admin.users.index') }}">
+                                    {{ __('Users') }}
+                                </x-jet-dropdown-link >
+                                <x-jet-dropdown-link  href="{{ route('admin.roles.index') }}">
+                                    {{ __('Roles') }}
+                                </x-jet-dropdown-link>
+                        </x-slot>
+                    </x-jet-dropdown>
+                </div>
+                @endrole
 
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative">
@@ -106,11 +121,6 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <!-- Account Management -->
-                            <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Manage Account') }}
-                            </div>
-
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
                             </x-jet-dropdown-link>
@@ -126,7 +136,6 @@
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-
                                 <x-jet-dropdown-link href="{{ route('logout') }}"
                                          onclick="event.preventDefault();
                                                 this.closest('form').submit();">
