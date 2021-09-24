@@ -23,7 +23,7 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            'task_status_id' => rand(1, TaskStatus::count()),
+            'task_status_id' => TaskStatus::inRandomOrder()->first()->id,
             'title' => $this->faker->text(50),
             'content' => $this->faker->text(400),
             'velocity' => $this->faker->numberBetween(1,8),
