@@ -20,22 +20,23 @@ class TaskServices {
 
     /*
      * Show tasks
-     * @param $q
-     * @param $user_id
+     * @param string $queryString
+     * @param array $selectedUserIds
      * @param $status
+     * @param $unassignedUsers
      * */
-    public function searchByParams($q = null, $user_id = null, $task_status_id = null, $unasiggnedUsers){
+    public function searchByParams(string $queryString = null, array $userIds = null, int $taskStatusId = null, bool $unassignedUsers = null){
         $taskGroups = Task::with(['user','status'])
-            ->where(function ($query) use ($q) {
-                return $query->when($q, function ($query , $q){
-                    return $query->where('title', 'like' , '%'.$q.'%')
-                        ->orWhereRelation('user', 'name', 'like', '%'.$q.'%');
+            ->where(function ($query) use ($queryString) {
+                return $query->when($queryString, function ($query , $queryString){
+                    return $query->where('title', 'like' , '%'.$queryString.'%')
+                        ->orWhereRelation('user', 'name', 'like', '%'.$queryString.'%');
                 });
-            })->when($task_status_id, function ($query, $task_status_id) {
-                return $query->where('task_status_id', $task_status_id);
-            })->when($user_id, function ($query, $user_id) {
-                return $query->whereIn('user_id', $user_id);
-            })->when($unasiggnedUsers, function ($query) {
+            })->when($taskStatusId, function ($query, $taskStatusId) {
+                return $query->where('task_status_id', $taskStatusId);
+            })->when($userIds, function ($query, $userIds) {
+                return $query->whereIn('user_id', $userIds);
+            })->when($unassignedUsers, function ($query) {
                 return $query->whereNull('user_id');
             })
             ->orderBy('task_status_id', 'ASC')
