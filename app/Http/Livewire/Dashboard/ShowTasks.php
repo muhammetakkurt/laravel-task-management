@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use App\Services\TaskServices;
@@ -31,7 +32,6 @@ class ShowTasks extends Component
     public function mount()
     {
         $this->taskStatuses = TaskStatus::all()->pluck('name', 'id');
-        $this->users = User::with('activeTasks')->whereHas('tasks')->get();
     }
 
     public function resetFilters()
@@ -46,8 +46,19 @@ class ShowTasks extends Component
     {
         $this->validate();
         $taskGroups = TaskStatus::orderBy('order', 'asc')->get();
+        $this->users = User::with('activeTasks')->whereHas('tasks')->get();
         $tasks = $taskServices->searchByParams((string) $this->searchString, (array) $this->selectedUserIds, (int) $this->selectedTaskStatus, (bool) $this->unassignedUsers);
 
         return view('livewire.dashboard.show-tasks', compact('taskGroups', 'tasks'));
+    }
+
+    public function updateTaskStatus(Task $task , $newCode){
+        if($newCode === 'back_log')
+        {
+            $task->task_status_id = null;
+        }else{
+            $task->task_status_id = TaskStatus::where('code', $newCode)->first()->id;
+        }
+        $task->save();
     }
 }

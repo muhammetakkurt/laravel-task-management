@@ -44,7 +44,12 @@
                 </div>
             @else
 
-                <div class="lg:flex lg:flex-col flex-row w-full md:w-72 lg:w-72 rounded-lg h-full border">
+                <div class="lg:flex lg:flex-col flex-row w-full md:w-72 lg:w-72 rounded-lg h-full border  board-list"
+                     id="list0"
+                     groupCode="{{ 'back_log' }}"
+                     ondrop="dropIt(event)"
+                     ondragover="allowDrop(event)"
+                    >
                     <h3 class="pt-3 pb-1 text-md font-medium bg-red-200 text-gray-700 text-center">Backlog</h3>
                     <div class="flex-1 min-h-0">
                         <ul class="pt-1 pb-3 px-3">
@@ -53,14 +58,20 @@
                                     <x-dashboard.task :task="$task" />
                                 @endforeach
                             @else
-                                <div class="px-4 text-center">not found.</div>
+                                <li class="px-4 text-center" id="not_found_0">
+                                    <span>not found.</span>
+                                </li>
                             @endisset
                         </ul>
                     </div>
                 </div>
 
                 @foreach($taskGroups as $key => $group)
-                    <div class="lg:flex lg:flex-col flex-row w-full md:w-72 lg:w-72 rounded-lg h-full border">
+                    <div class="lg:flex lg:flex-col flex-row w-full md:w-72 lg:w-72 rounded-lg h-full border board-list"
+                         id="list{{ $group->id }}"
+                         groupCode="{{ $group->code }}"
+                         ondrop="dropIt(event)"
+                         ondragover="allowDrop(event)">
                         <h3 class="pt-3 pb-1 text-md font-medium bg-{{ $group->color }}-200 text-gray-700 text-center">{{ $group->name }}</h3>
                         <div class="flex-1 min-h-0">
                             <ul class="pt-1 pb-3 px-3">
@@ -69,7 +80,9 @@
                                         <x-dashboard.task :task="$task" />
                                     @endforeach
                                 @else
-                                    <div class="px-4 text-center">not found.</div>
+                                    <li class="px-4 text-center" id="not_found_{{$group->id}}">
+                                        <span>not found.</span>
+                                    </li>
                                 @endisset
                             </ul>
                         </div>
@@ -79,3 +92,32 @@
         </main>
     </div>
 </div>
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+    function dragStart(ev) {
+        ev.dataTransfer.setData("text/plain", ev.target.id);
+    }
+    function dropIt(ev) {
+        ev.preventDefault();
+        let sourceTaskId = ev.dataTransfer.getData("text/plain");
+        let sourceTaskElement = document.getElementById(sourceTaskId);
+        let sourceBoard = sourceTaskElement.closest('.board-list');
+
+        let targetTaskElement = document.getElementById(ev.target.closest('li').id);
+        let targetBoard = targetTaskElement.closest('.board-list');
+
+        let taskId = sourceTaskElement.getAttribute('taskId');
+        let groupCode = targetBoard.getAttribute('groupCode');
+
+        if (targetBoard.id !== sourceBoard.id) {
+            targetTaskElement.before(sourceTaskElement);
+            let component = Livewire.find(
+                ev.target.closest('[wire\\:id]').getAttribute('wire:id')
+            );
+            component.call('updateTaskStatus' , taskId,  groupCode);
+        }
+    }
+</script>
+

@@ -1,5 +1,8 @@
-<li class="mt-3 hover:opacity-70">
-    <a href="{{ route('tasks.edit' , $task->id) }}" class="block bg-white p-5 shadow-lg rounded">
+<li class="mt-3 hover:opacity-70 card" id="card{{$task->id}}"
+    taskId="{{$task->id}}"
+    draggable="true"
+    ondragstart="dragStart(event)">
+    <div class="block bg-white p-5 shadow-lg rounded">
         <div class="flex items-baseline justify-between">
             <span class="text-sm font-medium rounded px-2 py-1 bg-{{ $task->status->color }}-400 text-white">{{ $task->status->name }}</span>
             <div class="flex items-center">
@@ -10,7 +13,7 @@
             </div>
         </div>
         <div class="mt-3">
-            <span class="font-medium">{{ Str::limit($task->title,20) }}</span>
+            <a href="{{ route('tasks.edit' , $task->id) }}"><span class="font-medium">{{ Str::limit($task->title,20) }}</span></a>
         </div>
         <div class="mt-3 flex justify-between items-center">
             <span class="flex items-center">
@@ -25,5 +28,5 @@
                 <x-badge> p:{{ $task->priority }}</x-badge>
             </span>
         </div>
-    </a>
+    </div>
 </li>
