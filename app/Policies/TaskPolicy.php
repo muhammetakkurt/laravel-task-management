@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-
 class TaskPolicy
 {
     use HandlesAuthorization;
@@ -32,7 +31,6 @@ class TaskPolicy
      */
     public function view(User $user, Task $task)
     {
-
     }
 
     /**

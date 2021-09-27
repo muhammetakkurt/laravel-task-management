@@ -25,12 +25,12 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
-                    <input wire:model.debounce.400ms="queryString" name="queryString" class="rounded-full border w-full focus:outline-none pl-8 h-10" placeholder="Search a task or an user..." autocomplete="off" />
+                    <input wire:model.debounce.400ms="searchString" name="searchString" class="rounded-full border w-full focus:outline-none pl-8 h-10" placeholder="Search task or user..." autocomplete="off" />
                 </div>
             </div>
 
             <div class="mt-4 md:mt-0  px-4 lg:px-0 lg:mt-0">
-                <x-form.select :options="$taskStatuses" :firstValue="'All Tasks'" wire:model="selectedTaskStatus" :selected="''" />
+                <x-form.select :options="$taskStatuses" :firstValue="'All Tasks'" wire:model="selectedTaskStatus" :selected="null" />
             </div>
         </div>
     </div>

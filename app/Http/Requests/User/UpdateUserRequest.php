@@ -26,8 +26,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => ['required','email',Rule::unique('users')->ignore($this->user->id, 'id') ],
-            'roles.*.*' => ['required', Rule::notIn(['Super Admin'])]
+            'email' => ['required', 'email', Rule::unique('users')->ignore($this->user->id, 'id')],
+            'roles.*.*' => ['required', Rule::notIn(['Super Admin'])],
         ];
     }
 }

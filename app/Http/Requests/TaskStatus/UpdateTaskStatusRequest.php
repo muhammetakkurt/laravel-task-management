@@ -27,7 +27,7 @@ class UpdateTaskStatusRequest extends FormRequest
             'name' => 'required',
             'code' => 'required',
             'color' => 'required',
-            'order' => 'required|numeric'
+            'order' => 'required|numeric',
         ];
     }
 }

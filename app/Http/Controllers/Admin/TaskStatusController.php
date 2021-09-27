@@ -17,6 +17,7 @@ class TaskStatusController extends Controller
     public function index()
     {
         $taskStatuses = TaskStatus::paginate(10);
+
         return view('admin.taskStatuses.list', compact('taskStatuses'));
     }
 
@@ -39,6 +40,7 @@ class TaskStatusController extends Controller
     public function store(CreateTaskStatusRequest $request)
     {
         TaskStatus::create($request->validated());
+
         return redirect()->route('admin.task-statuses.index')->withSuccess('Status has been created!');
     }
 
@@ -74,6 +76,7 @@ class TaskStatusController extends Controller
     public function update(UpdateTaskStatusRequest $request, TaskStatus $taskStatus)
     {
         $taskStatus->update($request->validated());
+
         return redirect()->route('admin.task-statuses.index')->withSuccess('Status has been updated!');
     }
 
@@ -86,6 +89,7 @@ class TaskStatusController extends Controller
     public function destroy(TaskStatus $taskStatus)
     {
         $taskStatus->delete();
+
         return redirect()->route('admin.task-statuses.index')->withSuccess('Status has been deleted!');
     }
 }

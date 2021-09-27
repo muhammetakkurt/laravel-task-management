@@ -18,7 +18,7 @@ class TaskStatusResource extends JsonResource
             'name' => $this->name,
             'code' => $this->code,
             'color' => $this->color,
-            'order' => $this->order
+            'order' => $this->order,
         ];
     }
 }

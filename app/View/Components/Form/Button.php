@@ -15,7 +15,7 @@ class Button extends Component
     public $name;
     public $classes;
 
-    public function __construct($route , $name = null , $classes = null)
+    public function __construct($route, $name = null, $classes = null)
     {
         $this->route = $route;
         $this->name = $name;

@@ -10,6 +10,7 @@ class InputGroup extends Component
     public $name;
     public $value;
     public $title;
+
     /**
      * Create a new component instance.
      *

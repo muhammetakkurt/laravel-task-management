@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\CreateTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use App\Services\TaskServices;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -20,13 +18,13 @@ class TaskController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->hasRole(['Super Admin', 'admin' , 'editor'])) {
+        if (auth()->user()->hasRole(['Super Admin', 'admin', 'editor'])) {
             $tasks = Task::with('user', 'status')->paginate(10);
-        }else{
+        } else {
             $tasks = auth()->user()->tasks()->paginate(10);
         }
 
-        return view("tasks.list" , compact('tasks'));
+        return view('tasks.list', compact('tasks'));
     }
 
     /**
@@ -37,9 +35,10 @@ class TaskController extends Controller
     public function create()
     {
         $this->authorize('create', Task::class);
-        $taskStatuses = TaskStatus::all()->pluck('name','id');
-        $users = User::all()->pluck('name','id');
-        return view("tasks.create" , compact('users' , 'taskStatuses'));
+        $taskStatuses = TaskStatus::all()->pluck('name', 'id');
+        $users = User::all()->pluck('name', 'id');
+
+        return view('tasks.create', compact('users', 'taskStatuses'));
     }
 
     /**
@@ -48,11 +47,12 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateTaskRequest $request , TaskServices $taskServices)
+    public function store(CreateTaskRequest $request, TaskServices $taskServices)
     {
         $this->authorize('create', Task::class);
         $task = Task::create($request->validated());
         $taskServices->storeFileAndUpdateColumn($request, $task);
+
         return redirect()->route('tasks.index')->withSuccess('Task has been created!');
     }
 
@@ -64,7 +64,6 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-
     }
 
     /**
@@ -76,9 +75,10 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         $this->authorize('update', $task);
-        $taskStatuses = TaskStatus::all()->pluck('name','id');
-        $users = User::all()->pluck('name','id');
-        return view('tasks.edit' , compact('task','taskStatuses' , 'users'));
+        $taskStatuses = TaskStatus::all()->pluck('name', 'id');
+        $users = User::all()->pluck('name', 'id');
+
+        return view('tasks.edit', compact('task', 'taskStatuses', 'users'));
     }
 
     /**
@@ -88,11 +88,12 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTaskRequest $request, Task $task , TaskServices $taskServices)
+    public function update(UpdateTaskRequest $request, Task $task, TaskServices $taskServices)
     {
         $this->authorize('update', $task);
         $task->update($request->validated());
         $taskServices->storeFileAndUpdateColumn($request, $task);
+
         return redirect()->route('tasks.index')->withSuccess('Task has been updated!');
     }
 
@@ -106,6 +107,7 @@ class TaskController extends Controller
     {
         $this->authorize('delete', $task);
         $task->delete();
+
         return redirect()->route('tasks.index')->withSuccess('Task has been deleted!');
     }
 }

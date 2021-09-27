@@ -30,7 +30,7 @@ class UpdateTaskRequest extends FormRequest
             'content' => 'required',
             'velocity' => 'required|numeric',
             'priority' => 'required|numeric',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg'
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ];
     }
 }

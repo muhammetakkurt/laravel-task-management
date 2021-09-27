@@ -7,6 +7,7 @@ use Illuminate\View\Component;
 class Task extends Component
 {
     public $task;
+
     /**
      * Create a new component instance.
      *

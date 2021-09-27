@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -65,11 +64,13 @@ class User extends Authenticatable
         'email_verified_at',
     ];
 
-    public function tasks(){
+    public function tasks()
+    {
         return $this->hasMany(Task::class);
     }
 
-    public function activeTasks(){
-        return $this->hasMany(Task::class)->whereRelation('status' , 'code' , '=' , 'in_progress');
+    public function activeTasks()
+    {
+        return $this->hasMany(Task::class)->whereRelation('status', 'code', '=', 'in_progress');
     }
 }

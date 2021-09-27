@@ -20,7 +20,8 @@ class UserController extends Controller
     public function index()
     {
         $users = User::withCount('activeTasks')->paginate(10);
-        return view("admin.users.list" , compact('users'));
+
+        return view('admin.users.list', compact('users'));
     }
 
     /**
@@ -30,8 +31,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::where('name', '<>' , 'Super Admin')->get();
-        return view('admin.users.create' , compact('roles'));
+        $roles = Role::where('name', '<>', 'Super Admin')->get();
+
+        return view('admin.users.create', compact('roles'));
     }
 
     /**
@@ -50,11 +52,10 @@ class UserController extends Controller
             'remember_token' => Str::random(10),
         ]);
 
-        if($request->roles)
-        {
-            foreach ($request->roles as $guardName => $roles){
-                foreach ($roles as $role){
-                    $roleToAssign = Role::findByName($role , $guardName);
+        if ($request->roles) {
+            foreach ($request->roles as $guardName => $roles) {
+                foreach ($roles as $role) {
+                    $roleToAssign = Role::findByName($role, $guardName);
                     $user->assignRole($roleToAssign);
                 }
             }
@@ -82,8 +83,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::where('name', '<>' , 'Super Admin')->get();
-        return view('admin.users.edit' , compact('roles' , 'user'));
+        $roles = Role::where('name', '<>', 'Super Admin')->get();
+
+        return view('admin.users.edit', compact('roles', 'user'));
     }
 
     /**
@@ -96,18 +98,18 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->validated());
-        if(!$user->hasRole('Super Admin')){
+        if (!$user->hasRole('Super Admin')) {
             $user->roles()->detach();
-            if($request->roles)
-            {
-                foreach ($request->roles as $guardName => $roles){
-                    foreach ($roles as $role){
-                        $roleToAssign = Role::findByName($role , $guardName);
+            if ($request->roles) {
+                foreach ($request->roles as $guardName => $roles) {
+                    foreach ($roles as $role) {
+                        $roleToAssign = Role::findByName($role, $guardName);
                         $user->assignRole($roleToAssign);
                     }
                 }
             }
         }
+
         return redirect()->route('admin.users.index')->withSuccess('User has been saved!');
     }
 
@@ -119,8 +121,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if ($user->hasRole('Super Admin')) abort(401, 'You can not delete this user!');
+        if ($user->hasRole('Super Admin')) {
+            abort(401, 'You can not delete this user!');
+        }
         $user->delete();
+
         return redirect()->route('admin.users.index')->withSuccess('User has been deleted!');
     }
 }

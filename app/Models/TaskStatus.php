@@ -9,5 +9,5 @@ class TaskStatus extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','code','color','order'];
+    protected $fillable = ['name', 'code', 'color', 'order'];
 }

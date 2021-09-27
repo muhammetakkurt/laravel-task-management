@@ -18,7 +18,8 @@ class RoleControler extends Controller
     public function index()
     {
         $roles = Role::all();
-        return view("admin.roles.list" , compact('roles'));
+
+        return view('admin.roles.list', compact('roles'));
     }
 
     /**
@@ -29,7 +30,8 @@ class RoleControler extends Controller
     public function create()
     {
         $permissions = Permission::all();
-        return view('admin.roles.create' , compact('permissions'));
+
+        return view('admin.roles.create', compact('permissions'));
     }
 
     /**
@@ -41,8 +43,7 @@ class RoleControler extends Controller
     public function store(CreateRoleRequest $request)
     {
         $role = Role::create($request->validated());
-        foreach ($request->permissions as $permission)
-        {
+        foreach ($request->permissions as $permission) {
             $role->givePermissionTo($permission);
         }
 

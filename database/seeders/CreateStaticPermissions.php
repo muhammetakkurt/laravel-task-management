@@ -19,16 +19,16 @@ class CreateStaticPermissions extends Seeder
     public function run()
     {
         $superUser = User::create([
-            'name' => "makkurt",
-            'email' => "m_akkurt@live.com",
+            'name' => 'makkurt',
+            'email' => 'm_akkurt@live.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ]);
 
         $admin = User::create([
-            'name' => "Muhammet",
-            'email' => "admin@admin.com",
+            'name' => 'Muhammet',
+            'email' => 'admin@admin.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
@@ -37,12 +37,12 @@ class CreateStaticPermissions extends Seeder
         Task::factory()->count(10)->for($admin)->create();
         Task::factory()->count(10)->for($superUser)->create();
 
-        Permission::create(['name' => 'create tasks' , 'guard_name' => 'web']);
-        Permission::create(['name' => 'edit tasks' , 'guard_name' => 'web']);
+        Permission::create(['name' => 'create tasks', 'guard_name' => 'web']);
+        Permission::create(['name' => 'edit tasks', 'guard_name' => 'web']);
         Permission::create(['name' => 'delete tasks', 'guard_name' => 'web']);
 
-        Permission::create(['name' => 'create tasks' , 'guard_name' => 'api']);
-        Permission::create(['name' => 'edit tasks' , 'guard_name' => 'api']);
+        Permission::create(['name' => 'create tasks', 'guard_name' => 'api']);
+        Permission::create(['name' => 'edit tasks', 'guard_name' => 'api']);
         Permission::create(['name' => 'delete tasks', 'guard_name' => 'api']);
 
         $superAdminRole = Role::create(['name' => 'Super Admin']);

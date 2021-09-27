@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class ShowTasks extends Component
 {
-    public $queryString;
+    public $searchString;
 
     public $taskStatuses = [];
 
@@ -22,20 +22,21 @@ class ShowTasks extends Component
     public $users;
 
     protected $rules = [
-        'queryString' => 'nullable|string',
+        'searchString' => 'nullable|string',
         'selectedUserIds' => 'nullable|array',
-        'selectedTaskStatus' => 'nullable|int',
-        'unassignedUsers' => 'nullable|bool'
+        'selectedTaskStatus' => 'nullable|integer',
+        'unassignedUsers' => 'nullable|bool',
     ];
 
-    public function mount(){
-        $this->taskStatuses = TaskStatus::all()->pluck('name' , 'id');
+    public function mount()
+    {
+        $this->taskStatuses = TaskStatus::all()->pluck('name', 'id');
         $this->users = User::with('activeTasks')->whereHas('tasks')->get();
     }
 
     public function resetFilters()
     {
-        $this->queryString = null;
+        $this->searchString = null;
         $this->selectedUserIds = [];
         $this->selectedTaskStatus = null;
         $this->unassignedUsers = null;
@@ -43,9 +44,10 @@ class ShowTasks extends Component
 
     public function render(TaskServices $taskServices)
     {
-        $taskGroups = TaskStatus::orderBy('order', 'asc')->get();
         $this->validate();
-        $tasks = $taskServices->searchByParams($this->queryString, $this->selectedUserIds, $this->selectedTaskStatus , $this->unassignedUsers);
-        return view('livewire.dashboard.show-tasks' , compact('taskGroups', 'tasks'));
+        $taskGroups = TaskStatus::orderBy('order', 'asc')->get();
+        $tasks = $taskServices->searchByParams((string) $this->searchString, (array) $this->selectedUserIds, (int) $this->selectedTaskStatus, (bool) $this->unassignedUsers);
+
+        return view('livewire.dashboard.show-tasks', compact('taskGroups', 'tasks'));
     }
 }

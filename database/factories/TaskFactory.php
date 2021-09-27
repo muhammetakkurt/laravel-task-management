@@ -26,8 +26,8 @@ class TaskFactory extends Factory
             'task_status_id' => TaskStatus::inRandomOrder()->first()->id,
             'title' => $this->faker->text(50),
             'content' => $this->faker->text(400),
-            'velocity' => $this->faker->numberBetween(1,8),
-            'priority' => $this->faker->numberBetween(1,10),
+            'velocity' => $this->faker->numberBetween(1, 8),
+            'priority' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

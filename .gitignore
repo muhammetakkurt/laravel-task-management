@@ -4,6 +4,7 @@
 /storage/*.key
 /storage
 /vendor
+/tools
 .env
 .env.backup
 .phpunit.result.cache
@@ -15,3 +16,4 @@ yarn-error.log
 /.idea
 /.vscode
 composer.lock
+.php-cs-fixer.cache

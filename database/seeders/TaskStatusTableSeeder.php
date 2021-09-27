@@ -16,10 +16,10 @@ class TaskStatusTableSeeder extends Seeder
     {
         TaskStatus::insert(
             [
-                ["name" => "Open", "code" => "open", "color" => "indigo", "order" => 1],
-                ["name" => "In Progress", "code" => "in_progress", "color" => "blue", "order" => 2],
-                ["name" => "In Review", "code" => "in_review", "color" => "gray", "order" => 3],
-                ["name" => "Completed", "code" => "completed", "color" => "green", "order" => 4],
+                ['name' => 'Open', 'code' => 'open', 'color' => 'indigo', 'order' => 1],
+                ['name' => 'In Progress', 'code' => 'in_progress', 'color' => 'blue', 'order' => 2],
+                ['name' => 'In Review', 'code' => 'in_review', 'color' => 'gray', 'order' => 3],
+                ['name' => 'Completed', 'code' => 'completed', 'color' => 'green', 'order' => 4],
             ]
         );
     }

@@ -26,7 +26,7 @@ class CreateRoleRequest extends FormRequest
         return [
             'name' => 'required',
             'guard_name' => 'required',
-            'permissions' => 'required'
+            'permissions' => 'required',
         ];
     }
 }

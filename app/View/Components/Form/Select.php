@@ -9,6 +9,7 @@ class Select extends Component
     public $options;
     public $firstValue;
     public $selected;
+
     /**
      * Create a new component instance.
      *

@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateStaticPermissions::class);
 
         $users = \App\Models\User::factory(10)->has(
-            Task::factory(random_int(5,10))
+            Task::factory(random_int(5, 10))
         )->create();
 
-        foreach($users as $user){
+        foreach ($users as $user) {
             $user->assignRole('user');
         }
     }

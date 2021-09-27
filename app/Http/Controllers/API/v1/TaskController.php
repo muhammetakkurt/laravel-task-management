@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\v1;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\CreateTaskRequest;
@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-
     public $guardName;
 
     public function __construct()
@@ -23,27 +22,32 @@ class TaskController extends Controller
     /*
      * List all tasks
      * */
-    public function index(){
+    public function index()
+    {
         return TaskResource::collection(Task::with('user')->get());
     }
 
     /*
      * Show one of task
      * */
-    public function show(Task $task){
+    public function show(Task $task)
+    {
         return new TaskResource($task);
     }
 
     /*
      * Create a task
      * */
-    public function store(CreateTaskRequest $request , TaskServices $taskServices){
-        if( $request->user()->hasRole('Super Admin' ) === false &&
-            $request->user()->hasPermissionTo('create tasks' , $this->guardName) === false)
+    public function store(CreateTaskRequest $request, TaskServices $taskServices)
+    {
+        if ($request->user()->hasRole('Super Admin') === false &&
+            $request->user()->hasPermissionTo('create tasks', $this->guardName) === false) {
             throw new \Exception('You do not have access to update this task.');
+        }
 
         $task = Task::create($request->validated());
         $taskServices->storeFileAndUpdateColumn($request, $task);
+
         return new TaskResource($task);
     }
 
@@ -51,13 +55,16 @@ class TaskController extends Controller
      * Update task
      * @param App\Http\Requests\UpdateTaskRequest
      * */
-    public function update(UpdateTaskRequest $request , Task $task , TaskServices $taskServices){
-        if( $request->user()->hasRole('Super Admin' ) === false &&
-            $request->user()->hasPermissionTo('delete tasks' , $this->guardName) === false)
+    public function update(UpdateTaskRequest $request, Task $task, TaskServices $taskServices)
+    {
+        if ($request->user()->hasRole('Super Admin') === false &&
+            $request->user()->hasPermissionTo('delete tasks', $this->guardName) === false) {
             throw new \Exception('You do not have access to update this task.');
+        }
 
         $task->update($request->validated());
         $taskServices->storeFileAndUpdateColumn($request, $task);
+
         return new TaskResource($task);
     }
 
@@ -66,12 +73,15 @@ class TaskController extends Controller
      * @param Request
      * @param $task
      * */
-    public function destroy(Request $request, Task $task){
-        if( $request->user()->hasRole('Super Admin' ) === false &&
-            $request->user()->hasPermissionTo('delete tasks' , $this->guardName) === false)
+    public function destroy(Request $request, Task $task)
+    {
+        if ($request->user()->hasRole('Super Admin') === false &&
+            $request->user()->hasPermissionTo('delete tasks', $this->guardName) === false) {
             throw new \Exception('You do not have access to delete this task.');
+        }
 
         $task->delete();
+
         return response()->json(['message' => 'This task has been deleted.']);
     }
 }

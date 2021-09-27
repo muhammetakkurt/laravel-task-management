@@ -17,7 +17,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!auth()->user()->hasRole(['Super Admin', 'admin'])){
+        if (!auth()->user()->hasRole(['Super Admin', 'admin'])) {
             return redirect(RouteServiceProvider::HOME);
         }
 

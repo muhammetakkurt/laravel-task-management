@@ -28,7 +28,7 @@ class CreateUserRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'roles.*.*' => ['required', Rule::notIn(['Super Admin'])]
+            'roles.*.*' => ['required', Rule::notIn(['Super Admin'])],
         ];
     }
 }

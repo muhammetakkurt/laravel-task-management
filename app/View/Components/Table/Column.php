@@ -7,6 +7,7 @@ use Illuminate\View\Component;
 class Column extends Component
 {
     public $class;
+
     /**
      * Create a new component instance.
      *
